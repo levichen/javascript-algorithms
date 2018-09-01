@@ -101,7 +101,23 @@ class LinkedList {
    * @param {function} [findParams.callback]
    * @return {LinkedListNode}
    */
-  find ({ value = undefined, callback = undefined }) {}
+  find ({ value = undefined, callback = undefined }) {
+    if (this.head === null) {
+      return null
+    }
+
+    let currentNode = this.head
+
+    while (currentNode) {
+      if (callback !== undefined && callback(currentNode.value)) return currentNode
+
+      if (value !== undefined && this.compare.equal(currentNode.value, value)) return currentNode
+
+      currentNode = currentNode.next
+    }
+
+    return null
+  }
 
   /**
    * @param {*} value
@@ -151,8 +167,23 @@ class LinkedList {
 
     return nodes
   }
-  toString () {
-    return this.toArray().map(node => node.toString()).toString()
+
+  /**
+   * @param {*[]} values - Array of values that need to be converted to linked list.
+   * @return {LinkedList}
+   */
+  fromArray (values) {
+    values.forEach(value => this.append(value))
+
+    return this
+  }
+
+  /**
+   * @param {function} [callback]
+   * @return {string}
+   */
+  toString (callback) {
+    return this.toArray().map(node => node.toString(callback)).toString()
   }
 }
 
