@@ -1,11 +1,17 @@
 const LinkedListNode = require('./LinkedListNode')
+const Comparator = require('../../utils/comparator')
 
 class LinkedList {
-  constructor () {
+  /**
+   * @param {Function} [comparatorFunction]
+   */
+  constructor (comparatorFunction) {
     /** @type {LinkedListNode} */
     this.head = null
     /** @type {LinkedListNode} */
     this.tail = null
+
+    this.compare = new Comparator(comparatorFunction)
   }
 
   /**
