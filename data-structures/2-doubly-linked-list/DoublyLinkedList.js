@@ -1,12 +1,18 @@
 const DoublyLinkedListNode = require('./DoublyLinkedListNode')
+const Comparator = require('../../utils/comparator')
 
 class DoublyLinkedList {
-  constructor () {
+  /**
+   * @param {Function} [comparatorFunction]
+   */
+  constructor (comparatorFunction) {
     /** @type DoublyLinkedListNode */
     this.head = null
 
     /** @type DoublyLinkedListNode */
     this.tail = null
+
+    this.compare = new Comparator(comparatorFunction)
   }
 
   /**
@@ -61,7 +67,39 @@ class DoublyLinkedList {
    * @return {DoublyLinkedListNode}
    */
   delete (value) {
+    if (this.head === null) return null
 
+    let deletedNode = null
+
+    let currentNode = this.head
+
+    while (currentNode !== null) {
+      if (this.compare.equal(currentNode.value, value)) {
+        deletedNode = currentNode
+
+        if (currentNode === this.head) {
+          this.head = currentNode.next
+
+          if (this.head !== null) {
+            this.head.previous = null
+          }
+
+          if (this.tail === currentNode) {
+            this.tail = null
+          }
+        } else if (currentNode === this.tail) {
+          this.tail = currentNode.previous
+          this.tail.next = null
+        } else {
+          currentNode.previous.next = currentNode.next
+          currentNode.next.previous = currentNode.previous
+        }
+      }
+
+      currentNode = currentNode.next
+    }
+
+    return deletedNode
   }
 
   /**
@@ -71,21 +109,69 @@ class DoublyLinkedList {
    * @return {DoublyLinkedListNode}
    */
   find ({ value = undefined, callback = undefined }) {
+    if (this.head === null) return null
 
+    let currentNode = this.head
+    while (currentNode) {
+      if (callback !== undefined && callback(currentNode.value)) return currentNode
+      if (value !== undefined && this.compare.equal(currentNode.value, value)) return currentNode
+
+      currentNode = currentNode.next
+    }
+
+    return null
   }
 
   /**
    * @return {DoublyLinkedListNode}
    */
   deleteTail () {
+    if (this.tail === null) {
+      return null
+    }
 
+    // there is only one node
+    if (this.head === this.tail) {
+      const deletedTail = this.tail
+
+      this.head = null
+      this.tail = null
+
+      return deletedTail
+    }
+
+    // if there are many nodes
+    const deletedTail = this.tail
+
+    this.tail = this.tail.previous
+    this.tail.next = null
+
+    return deletedTail
   }
 
   /**
    * @return {DoublyLinkedListNode}
    */
   deleteHead () {
+    if (this.head === null) {
+      return null
+    }
 
+    // if there is only one node
+    if (this.head === this.tail) {
+      const deletedHead = this.head
+      this.head = null
+      this.tail = null
+
+      return deletedHead
+    }
+
+    // if there are many nodes
+    const deletedHead = this.head
+    this.head = this.head.next
+    this.head.previous = null
+
+    return deletedHead
   }
 
   /**
@@ -115,10 +201,11 @@ class DoublyLinkedList {
   }
 
   /**
+   * @param {function} [callback]
    * @return {string}
    */
-  toString () {
-    return this.toArray().map(node => node.toString()).toString()
+  toString (callback) {
+    return this.toArray().map(node => node.toString(callback)).toString()
   }
 }
 
