@@ -89,7 +89,7 @@ class LinkedList {
     return deletedTail
   }
 
-   /**
+  /**
    * @param {Object} findParams
    * @param {*} findParams.value
    * @param {function} [findParams.callback]
@@ -97,7 +97,7 @@ class LinkedList {
    */
   find ({ value = undefined, callback = undefined }) {}
 
-   /**
+  /**
    * @param {*} value
    * @return {LinkedListNode}
    */

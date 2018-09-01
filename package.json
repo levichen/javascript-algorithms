@@ -4,18 +4,18 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "codecov": "codecov"
+  },
+  "standard": {
+    "env": [ "jest" ]
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "chai": "^4.1.2",
-    "mocha": "^5.2.0"
-  },
-  "standard": {
-    "env": [
-      "mocha"
-    ]
+  "devDependencies": {
+    "@types/jest": "^23.3.1",
+    "codecov": "^3.0.4",
+    "jest": "^23.5.0"
   }
 }
