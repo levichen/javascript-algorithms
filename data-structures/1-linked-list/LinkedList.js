@@ -107,7 +107,35 @@ class LinkedList {
    * @param {*} value
    * @return {LinkedListNode}
    */
-  delete (value) {}
+  delete (value) {
+    if (this.head === null) {
+      return null
+    }
+
+    let deletedNode = null
+    while (this.head !== null && this.compare.equal(this.head.value, value)) {
+      deletedNode = this.head
+      this.head = this.head.next
+    }
+
+    let currentNode = this.head
+
+    while (currentNode !== null && currentNode.next !== null) {
+      if (this.compare.equal(currentNode.next.value, value)) {
+        deletedNode = currentNode.next
+        currentNode.next = currentNode.next.next
+      } else {
+        currentNode = currentNode.next
+      }
+    }
+
+    if (this.compare.equal(this.tail.value, value)) {
+      deletedNode = this.tail
+      this.tail = currentNode
+    }
+
+    return deletedNode
+  }
 
   /**
    * @returns {LinkedListNode[]}
