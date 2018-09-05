@@ -21,7 +21,13 @@ class HashTable {
    * @return {number}
    */
   hash (key) {
+    const hash = Array.from(key).reduce(
+      (hashAccumulator, keySymbol) => (hashAccumulator + keySymbol.charCodeAt(0)),
+      0
+    )
 
+    // Reduce hash number so it would fit hash table size.
+    return hash % this.buckets.length
   }
 
   /**
@@ -29,7 +35,18 @@ class HashTable {
    * @param {*} value
    */
   set (key, value) {
+    const hashKey = this.hash(key)
 
+    this.keys[key] = hashKey
+
+    const bucketLinkedList = this.buckets[hashKey]
+    const node = bucketLinkedList.find({ callback: nodeValue => nodeValue.key === key })
+
+    if (!node) {
+      bucketLinkedList.append({ key, value })
+    } else {
+      node.value.value = value
+    }
   }
 
   /**
@@ -37,7 +54,16 @@ class HashTable {
    * @return {*}
    */
   delete (key) {
+    const hashKey = this.hash(key)
+    delete this.keys[key]
+    const bucketLinkedList = this.buckets[hashKey]
+    const node = bucketLinkedList.find({ callback: nodeValue => nodeValue.key === key })
 
+    if (node) {
+      return bucketLinkedList.delete(node.value)
+    }
+
+    return null
   }
 
   /**
@@ -45,7 +71,11 @@ class HashTable {
    * @return {*}
    */
   get (key) {
+    const hashKey = this.hash(key)
+    const bucketLinkedList = this.buckets[hashKey]
+    const node = bucketLinkedList.find({ callback: nodeValue => nodeValue.key === key })
 
+    return node ? node.value.value : undefined
   }
 
   /**
@@ -53,13 +83,14 @@ class HashTable {
    * @return {boolean}
    */
   has (key) {
-
+    return Object.hasOwnProperty.call(this.keys, key)
   }
 
   /**
    * @return {string[]}
    */
   getKeys () {
+    return Object.keys(this.keys)
   }
 }
 
