@@ -11,7 +11,7 @@ class MaxHeap extends Heap {
    * @return {boolean}
    */
   pairIsInCorrectOrder (firstElement, secondElement) {
-    return this.compare.greaterThanOrEqual(firstElement, secondElement)
+    return this.compare.lessThanOrEqual(firstElement, secondElement)
   }
 }
 
