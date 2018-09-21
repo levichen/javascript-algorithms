@@ -6,8 +6,11 @@ class BinaryTreeNode {
    * @param {*} [value] - node value.
    */
   constructor (value = null) {
+    /** @type {BinaryTreeNode} */
     this.left = null
+    /** @type {BinaryTreeNode} */
     this.right = null
+    /** @type {BinaryTreeNode} */
     this.parent = null
     this.value = value
 
