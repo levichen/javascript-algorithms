@@ -1,6 +1,6 @@
-const BinarySearchTree = require('../binary-search-tree/BinarySearchTree')
+const BinarySearchTree = require('./BinarySearchTree')
 
-export default class AvlTree extends BinarySearchTree {
+class AvlTree extends BinarySearchTree {
   /**
    * @param {*} value
    */
@@ -55,3 +55,5 @@ export default class AvlTree extends BinarySearchTree {
   rotateRightRight (rootNode) {
   }
 }
+
+module.exports = AvlTree
