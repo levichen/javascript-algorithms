@@ -27,7 +27,7 @@ class BinaryTreeNode {
   get leftHeight () {
     if (!this.left) return 0
 
-    return this.left.leftHeight + 1
+    return this.left.height + 1
   }
 
   /**
@@ -36,7 +36,7 @@ class BinaryTreeNode {
   get rightHeight () {
     if (!this.right) return 0
 
-    return this.right.rightHeight + 1
+    return this.right.height + 1
   }
 
   /**
